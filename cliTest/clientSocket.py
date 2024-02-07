@@ -19,6 +19,17 @@ def ClientSocketConnection(ipServer: str):
     server_address = ipServer
     server_port = 8080
 
+    #Verificar si el servidor está activo
+    command = f"echo 'ping' | nc {server_address} {server_port}"
+    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    responseServer = result.stdout.decode()
+    if responseServer == "pong":
+        print(f"conectado a: {ipServer}:{server_port}")
+    else:
+        print(f"Conexión fallida a: {ipServer}:{server_port}")
+        system("./bins/cleanProject.sh")
+        exit()
+        
     while True:
         try:
             color_azul_oscuro = "\033[34m"
@@ -27,16 +38,7 @@ def ClientSocketConnection(ipServer: str):
             color_blanco = "\033[97;1m"
             fin_color = "\033[0m"# Imprimir las IPs
             
-            #Verificar si el servidor está activo
-            command = f"echo 'ping' | nc {server_address} {server_port}"
-            result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            responseServer = result.stdout.decode()
 
-            if responseServer == "pong":
-                print(f"conectado a: {ipServer}:{server_port}")
-            else:
-                print(f"Conexión fallida a: {ipServer}:{server_port}")
-                break
             
             # Solicitar al usuario que ingrese un mensaje
             message = input(color_rojo + f"\n-> {color_blanco + usuario + fin_color}: " + fin_color)
