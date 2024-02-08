@@ -111,7 +111,6 @@ def ConfigProfileUser(page: Page):
         nameUserProfile = Text(listNameDevice[0])
         
         containerProfileDevice = Container(
-            bgcolor=colors.GREEN_200,
     
             width=150,
             content=Column(
