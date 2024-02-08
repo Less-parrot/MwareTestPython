@@ -1,10 +1,10 @@
 from flet import View, Page
-from views.profileConfig import ConfigProfileUser
+from views.moreInformationView import ConfigProfileUser
 from views.indexView import IndexView
 from views.vncServerView import VncServerView
 from views.exampleView import ExampleView
-from views.viewSMS import SMSView
-from views.viewApps import AppsView
+from views.smsView import SMSView
+from views.appView import AppsView
 
 
 class ControllerViews:

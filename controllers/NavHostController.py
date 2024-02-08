@@ -1,8 +1,5 @@
 import flet as ft
-from views.LoginUsersView import Login_users
-from views.indexView import IndexView
-from views.profileConfig import ConfigProfileUser
-from views.vncServerView import VncServerView
+from views.loginView import Login_users
 from controllers.Controller import ControllerViews
 
 

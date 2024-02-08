@@ -8,7 +8,6 @@ from flet import (
     alignment,
     Column,
     Text, 
-    FontWeight,
     Image,
     border_radius,
     icons,
@@ -18,10 +17,7 @@ from flet import (
     ScrollMode,
     Icon,
     Row,
-    MainAxisAlignment,
     ListView,
-    TextButton,
-    colors, 
     Padding
     
 )
@@ -37,34 +33,6 @@ from views.libs.GetRouteFile import GetRouteImage
 
 def ConfigProfileUser(page: Page):
 
-    def TitlePageInformationDevice():
-        
-        titulo = "INFORMACIÓN DE DISPOSITIVO"
-        containerTitileInformationDevice = Container(
-            alignment= alignment.center,
-            
-            content=
-            Column(
-                controls=[
-                    
-                    Text(
-                        titulo, 
-                        weight= FontWeight.BOLD,
-                        size=16, 
-                        font_family="Consolas",#USAMOS LA FUENTE CONSOLAS, (TEST)
-                        italic=True#ACTIVAMOS LA LETRA ITALIC 
-                    )
-                    
-                ]
-            )
-
-        )
-        
-        return (
-            
-            containerTitileInformationDevice
-        
-        )
         
     def RouteImage():
         ruta_archivo = "jsonData/config.json"

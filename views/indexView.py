@@ -27,6 +27,7 @@ from flet import (
 
 from db.script import ReadTableDb
 from os import system
+from views.libs.DialogUser import DialogUser
 
 listaIDAPP = []
 listaIDSMS = []
@@ -34,6 +35,7 @@ listaIDDevice = []
 listIPDevice = []
 listIPDevice1 = []
 listNameDevice = []
+
 def IndexView(page: Page):
     
     def AccessMoreInfoDevice(e, idDevice, ipPublicDevice, ipPrivateDevice, nameUser):
@@ -267,17 +269,28 @@ def IndexView(page: Page):
         #Mostramos por pantalla la DataTable refrescada
         refresh = IconButton(
             icon=icons.REFRESH_OUTLINED,
-            on_click=AggRows, data=0,
+            on_click=AggRows,
             icon_color="blue500",
             icon_size="30",
             tooltip="recargar datos"
             )
         
+        
+        addDevice = DialogUser(page)
+        
+        
+        iconButtons = Row(
+            controls=[
+                refresh,
+                addDevice
+            ]
+        )
+        
         #boton1 = ElevatedButton("Delete", on_click=DeleteRows) #Así sería un ejemplo de botón para eliminar datos
         
         todo = Column(
                 controls=[
-                    refresh,
+                    iconButtons,
                     contenedor
                     
                 ]
