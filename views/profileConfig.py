@@ -20,7 +20,9 @@ from flet import (
     Row,
     MainAxisAlignment,
     ListView,
-    TextButton
+    TextButton,
+    colors, 
+    Padding
     
 )
 
@@ -85,49 +87,98 @@ def ConfigProfileUser(page: Page):
         return routeImage
     
     def ProfileUser():
-        
-        routeImage = RouteImage()
 
+        routeImage = RouteImage()
         imageUser = Image(
-            src=routeImage,#IMAGEN POR DEFECTO
+            src=routeImage,#Ponemos una imagen por defecto, hasta que el usuario seleccione una
             width=120,
             height=120, 
-            border_radius= border_radius.all(15)
+            border_radius=border_radius.all(15)
         )
         
-        def changeImageUser(e):
-            InsertUserInJson(nameUser=listNameDevice[0], id_user=listaIDDevice[0], nueva_imagen=GetRouteImage(), nueva_imageVnc=RouteImage1())
+        def ChangeImageUser(e):
+            InsertUserInJson(nameUser=listNameDevice[0], id_user=listaIDDevice[0], nueva_imageVnc=GetRouteImage(), nueva_imagen=RouteImage1())
             imageUser.src = RouteImage()
             page.update()
             
         iconEditImageUser = IconButton(
             icon = icons.EDIT,
             tooltip="Editar Imágen",
-            on_click=changeImageUser
+            on_click=ChangeImageUser
             )  
 
-        nameUser = Text(listNameDevice[0])#FALTA PONER EL NOMBRE RESPECTIVO SEGÚN DIGA LA BASE DE DATOS
         
-        containerUserProfile = Container(
-            
-            width= 150,
-            content= Column(
-                horizontal_alignment= CrossAxisAlignment.CENTER,
-                
+        nameUserProfile = Text(listNameDevice[0])
+        
+        containerProfileDevice = Container(
+            bgcolor=colors.GREEN_200,
+    
+            width=150,
+            content=Column(
+                horizontal_alignment=CrossAxisAlignment.CENTER,
                 controls=[
                     imageUser,
                     iconEditImageUser,
-                    nameUser
+                    nameUserProfile
                 ]
-                
             )
+            
         )
         
         return (
             
-            containerUserProfile
+            containerProfileDevice #RETORNAMOS EL CONTENEDOR DE LA IMAGEN DE USUARIO EN UNA COLUMNA
         
         )
+
+
+    def AccessBackPage(e):
+        view_pop = []
+        lista_filtrada = [vista for vista in page.views if not ('route=\'/\'') in str(vista)]        
+        for i in lista_filtrada:
+            if str(i) == "view {'route': '/', 'verticalalignment': 'center', 'horizontalalignment': 'center'}":
+                pass
+            else:
+                view_pop.append(i)
+        
+        
+        page.go(view_pop[-2].route)
+        
+
+    def ButtonAccessBackPage():
+        IconBackPage = IconButton(
+            
+            icon=icons.ARROW_BACK,
+            tooltip="Volver a la página anterior"#TEXTO QUE APARECERÁ ENCIMA DE EL BOTÓN AL PASAR EL RATÓN POR ENCIMA
+        
+        )
+        
+        containerBackPage = Container(
+            
+            alignment= alignment.bottom_left,
+            padding= Padding(10,400,10,10),
+            content=IconBackPage,
+            on_click=AccessBackPage
+        
+        )
+        
+        return (
+            containerBackPage
+        )
+    
+    containerProfileUserAndButtonBack = Container(
+        
+        padding= Padding(10,10,10,10),
+        content= Column(
+            
+            controls=[
+                ProfileUser(),
+                ButtonAccessBackPage()
+            ]
+            
+        )
+        
+    )
         
         
     def InfoDevice():
@@ -173,11 +224,12 @@ def ConfigProfileUser(page: Page):
                 ],
                 stops=[0.0, 0.25, 0.5, 0.75, 1.0],
             )
-        width, padding = 900, 10
+        width, padding = 1005, 10
         
         containerInfoExtraDevice = Container(
-            
+            expand=True, 
             content= Column(
+                expand=True,
                 scroll= ScrollMode.ALWAYS,
                 controls=[
                     
@@ -243,43 +295,15 @@ def ConfigProfileUser(page: Page):
         
         return (
             
-            containerInfoExtraDevice
-        
-        )
-        
-        
-    def NavigateToVnc_Server(e):
-        ipServer = listIPDevice1[0]
-        print(ipServer)
-        page.go("/index/ExtraInfoDevice/vnc_server")#NAVEGAR HACIA LA VISTA VNC_SERVER
-        system(f"./bins/vncviewer -geometry 405x610+412+140 {ipServer}:5300")
-
-        
-        
-    def ViewVNCServerProfile():
-        
-        imagePlayVNC = Image(
-            src= "playVNC.jpeg",
-            border_radius= border_radius.all(20),
-            )
-        
-        containerNavigateToVNC_SERVER = Container(
-            alignment= alignment.top_right,
-            width= 170,
-            height= 170,
-            content= imagePlayVNC
-        )
-        
-        buttonBackground = IconButton(
-            content=containerNavigateToVNC_SERVER,
-            on_click=NavigateToVnc_Server                
-        )
-
-        return (
             
-            buttonBackground
+            ListView(expand=True,spacing=10,padding=20,auto_scroll=False,
+                     controls=[
+                         containerInfoExtraDevice,
+                            ]
+                    )
         
         )
+        
     
     def NavigateToIndex(e):
         page.go("/index")#NAVEGAMOS HACIA LA VISTA /INDEX
@@ -307,29 +331,20 @@ def ConfigProfileUser(page: Page):
         )
     
     
-    cardsInfoDevice = InfoDevice()
-    
-    aggScrollToCardsInfoDevice = ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
-    aggScrollToCardsInfoDevice.controls.append(cardsInfoDevice)
-    
-    ElementsRow = Row(
-            alignment= MainAxisAlignment.SPACE_BETWEEN,
-            controls=[
-                ProfileUser(),
-                aggScrollToCardsInfoDevice,
-                ViewVNCServerProfile()
-            ]
-        )
-    
-    aggScrollToElementsRow = ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
-    aggScrollToElementsRow.controls.append(ElementsRow)
+
+
     
     
     viewExtraInfoDevice = [
-        TitlePageInformationDevice(),
-        aggScrollToElementsRow,   
-        BackToPagePrevious()
-        ]
+        Row(
+            spacing=40,
+            expand = True,
+            controls=[
+                containerProfileUserAndButtonBack,
+                InfoDevice()
+            ]
+        )
+    ]
     
     return (
         

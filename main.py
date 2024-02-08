@@ -19,12 +19,12 @@ if __name__ == "__main__":
 
         if args.parameter:
             ipServerConnection = args.parameter
-            ClientSocketConnection(ipServerConnection)
+            #ClientSocketConnection(ipServerConnection)
 
         else:
             args.parameter = "192.168.100.242"
             ipServerConnection = args.parameter
-            ClientSocketConnection(ipServerConnection)
+            #ClientSocketConnection(ipServerConnection)
 
         ft.app(target=main, assets_dir="assets") # Iniciamos la UI y ponemos la carpeta assets
         system("./bins/cleanProject.sh")

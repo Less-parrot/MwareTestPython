@@ -1,109 +1,167 @@
-import flet as ft 
-import subprocess
 import math
+from views.libs.DefineCards import DefineCardsInfoDevice, DefineCardsAPPS_SMS_Device
 
-def ConfigProfileUser(page: ft.Page):
+from flet import (
+    Page,
+    Container,
+    alignment,
+    Column,
+    Text, 
+    FontWeight,
+    Image,
+    border_radius,
+    icons,
+    IconButton,
+    CrossAxisAlignment,
+    SweepGradient,
+    ScrollMode,
+    Icon,
+    Row,
+    MainAxisAlignment,
+    ListView,
+    TextButton,
+    app
     
-    def TituloPagina():
+)
+
+from os import system
+from views.indexView import listaIDDevice, listIPDevice, listIPDevice1, listNameDevice
+from views.libs.LocalitationDevice import IPinfo
+from db.script import ReadTableDb
+from json import loads, load
+from jsonData.script import InsertUserInJson
+from views.libs.GetRouteFile import GetRouteImage
+
+
+def ConfigProfileUser(page: Page):
+
+    def TitlePageInformationDevice():
         
         titulo = "INFORMACIÓN DE DISPOSITIVO"
-        centrar_titulo = ft.Container(
-            alignment=ft.alignment.center,
+        containerTitileInformationDevice = Container(
+            alignment= alignment.center,
+            
             content=
-            ft.Column(
+            Column(
                 controls=[
-                    ft.Text(titulo, 
-                            weight=ft.FontWeight.BOLD,
-                            size=16, 
-                            font_family="Consolas",
-                            italic=True
-                            
-                        )
+                    
+                    Text(
+                        titulo, 
+                        weight= FontWeight.BOLD,
+                        size=16, 
+                        font_family="Consolas",#USAMOS LA FUENTE CONSOLAS, (TEST)
+                        italic=True#ACTIVAMOS LA LETRA ITALIC 
+                    )
+                    
                 ]
             )
 
         )
-        return (centrar_titulo)
-    
-    def obtener_ruta_seleccionada():
-        try:
-            # Ejecutar el diálogo de selección de archivos utilizando zenity
-            resultado = subprocess.run(['zenity',
-                                        '--file-selection',
-                                        '--title=Selecciona una Imagen',
-                                        '--file-filter=Icon Profile(png,jpeg, jpg) | *.png *.jpeg *jpg',
-                                        '--file-filter=All files | *'],
-                                       capture_output=True, text=True)
+        
+        return (
+            
+            containerTitileInformationDevice
+        
+        )
+        
+    def RouteImage():
+        ruta_archivo = "jsonData/config.json"
 
-            if resultado.returncode == 0:
-                # La ruta seleccionada está en la salida estándar
-                ruta_seleccionada = resultado.stdout.strip()
-                #print("Ruta absoluta del archivo seleccionado:", ruta_seleccionada)
-                return ruta_seleccionada
-            else:
-                return("No se seleccionó ningún archivo.")
-        except FileNotFoundError:
-            return("Zenity no está instalado. Instálalo para utilizar esta funcionalidad.")
-    
-    def ProfileUser(routeImage: str = "LogoPerfilHombre3.jpeg"):
+        with open(ruta_archivo, 'r') as archivo:
+            datos_json = load(archivo)
 
-        imageUser = ft.Image(
-            src=routeImage,
+        dataImage = datos_json[f"{listaIDDevice[0]}"]
+        routeImage = dataImage['imagen_perfil']
+        return routeImage
+    
+    def RouteImage1():
+        ruta_archivo = "jsonData/config.json"
+
+        with open(ruta_archivo, 'r') as archivo:
+            datos_json = load(archivo)
+
+        dataImage = datos_json[f"{listaIDDevice[0]}"]
+        routeImage = dataImage['imageVnc']
+        return routeImage
+    
+    def ProfileUser():
+        
+        routeImage = RouteImage()
+
+        imageUser = Image(
+            src=routeImage,#IMAGEN POR DEFECTO
             width=120,
             height=120, 
-            border_radius=ft.border_radius.all(15)
+            border_radius= border_radius.all(15)
         )
         
         def changeImageUser(e):
-            imageUser.src = str(obtener_ruta_seleccionada())
+            InsertUserInJson(nameUser=listNameDevice[0], id_user=listaIDDevice[0], nueva_imagen=GetRouteImage(), nueva_imageVnc=RouteImage1())
+            imageUser.src = RouteImage()
             page.update()
             
-        iconoUser = ft.IconButton(
-            icon = ft.icons.EDIT,
+        iconEditImageUser = IconButton(
+            icon = icons.EDIT,
             tooltip="Editar Imágen",
             on_click=changeImageUser
             )  
 
+        nameUser = Text(listNameDevice[0])#FALTA PONER EL NOMBRE RESPECTIVO SEGÚN DIGA LA BASE DE DATOS
         
-        nombreUsuario = ft.Text("Juan Carlos")
-        
-        contenedorPerfil = ft.Container(
+        containerUserProfile = Container(
             
-            width=150,
-            #bgcolor=ft.colors.RED,
-            #alignment=ft.alignment.top_left,
-            content=ft.Column(
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            width= 150,
+            content= Column(
+                horizontal_alignment= CrossAxisAlignment.CENTER,
+                
                 controls=[
                     imageUser,
-                    iconoUser,
-                    nombreUsuario
+                    iconEditImageUser,
+                    nameUser
                 ]
+                
             )
         )
         
-        return (contenedorPerfil)
+        return (
+            
+            containerUserProfile
+        
+        )
         
         
     def InfoDevice():
+        IPDevice = listIPDevice[0]
+        ipinfo = IPinfo(IPDevice)
+        localitation = ipinfo.start()
+        data_dict = loads(localitation)
+
+        # Acceder a los valores del diccionario
+        pais = data_dict["country"]
+        ciudad = data_dict["city"]
+        proveedorInternet = data_dict["isp"]
+        Maps = data_dict["maps"]
+        bandera = data_dict["flag"]
+        
+        readMessages =  ReadTableDb(
+        "db/smsDevices.db",
+        f"""
+        SELECT * FROM sms_device_{listaIDDevice[0]}
+        
+        """    
+        )
+        
+        readApps = ReadTableDb(
+        "db/appsDevices.db",
+        f"""
+        SELECT * FROM apps_device_{listaIDDevice[0]}
+        
+        """    
+        )
         
         
-        def DefineCardsInfoDevice(
-                icono: ft.Icon,
-                titleCard: str = "Desconocido",
-                *descriptionCard: str
-                
-                
-                ):
-            descriptions = "\t\n".join(descriptionCard)
-            infoSimCard = ft.Card(
-            
-            
-            content=ft.Container(
-                #bgcolor=colorCard,
-                border_radius=ft.border_radius.all(10),
-                gradient=ft.SweepGradient(
-                center=ft.alignment.center,
+        gradient= SweepGradient( #DEGRADADO EN ESTRELLA
+                center= alignment.center,
                 start_angle=0.0,
                 end_angle=math.pi * 2,
                 colors=[
@@ -114,172 +172,139 @@ def ConfigProfileUser(page: ft.Page):
                     "0x8b0000",
                 ],
                 stops=[0.0, 0.25, 0.5, 0.75, 1.0],
-            ),
-                
-                content=ft.Column(
-                    scroll=ft.ScrollMode.ALWAYS,
-                    controls=
-                    [
-                        ft.ListTile(
-                            leading=icono,
-                            title=ft.Text(titleCard),
-                            subtitle=ft.Column(
-                                controls=[
-                                    ft.Text(
-                                        descriptions
-                                    )
-                                ]
-                            )
-                            
-                        ),
-                    ]
-                    
-                ),
-                
-                width=700,
-                padding=18,
             )
-        )
-            
-            #infoSimCard.content.content.controls.append(ft.Text("Hola"))
-            
-            return ft.Container(
-                #bgcolor=ft.colors.RED,
-                alignment=ft.alignment.top_center,
-                content=ft.Column(
-                    controls=[
-                        infoSimCard
-                    ]
-                )
-            )
-            
+        width, padding = 900, 10
         
-        contenedorCards = ft.Container(
+        containerInfoExtraDevice = Container(
             
-            content=ft.Column(
-                scroll=ft.ScrollMode.ALWAYS,
+            content= Column(
+                scroll= ScrollMode.ALWAYS,
                 controls=[
-            DefineCardsInfoDevice(
-            ft.Icon(ft.icons.PHONE_ANDROID),
-            
-            "SIM CARD",
-            "Operador: Claro Colombia",
-            "Célular: 3224527435",
-            "Identificador: 7700121"
-            ),
+                    
+                    DefineCardsInfoDevice(
+                        gradient,
+                        width,
+                        padding,
+                        Icon(icons.PHONE_ANDROID),
+                        "SIM CARD",
+                        "Operador: Claro Colombia",
+                        "Célular: 3149127812",
+                        "Identificador: 8912112"
+                    ),
         
-        DefineCardsInfoDevice(
-            ft.Icon(ft.icons.LOCATION_ON),
-                    #color = ft.colors.GREEN_900),
-            
-            "UBICACIÓN",
-            "País: Paipa-Boyacá/Colombia",
-            "Cod Postal: 7000120",
-            "Corrdenadas: 66º 50' y 84º 46'",
-            "Dirección: Cra 33 #17 A",
-            ),
+                    DefineCardsInfoDevice(
+                        gradient,
+                        width,
+                        padding,
+                        Icon(icons.LOCATION_ON),
+                        "UBICACIÓN",
+                        f"País: {pais} {bandera}",
+                        f"Ciudad: {ciudad}"
+                        #f"Cod Postal: 1247412",
+                        f"Coordenadas: {Maps}",
+                        f"Proveedor de internet: {proveedorInternet}",
+                    ),
         
         
-        DefineCardsInfoDevice(
-            ft.Icon(ft.icons.APPS_SHARP),
-            "APLICACIONES",
-            "desplegar apliaciones..."   
-        ),
+                    DefineCardsAPPS_SMS_Device(
+                        gradient,
+                        width,
+                        padding,
+                        Icon(icons.APPS_SHARP),
+                        "MENSAJES DE TEXTO",
+                        "sms",
+                        readMessages
+                    ),
+                    
+                    
+                    DefineCardsAPPS_SMS_Device(
+                        gradient,
+                        width,
+                        padding,
+                        Icon(icons.APPS_SHARP),
+                        "APLICACIONES",
+                        "apps",
+                        readApps
+                    ),
         
-        DefineCardsInfoDevice(
-            ft.Icon(ft.icons.SMS_OUTLINED),
-            "MENSAJES DE TEXTO",
-            "despegar mensajes de texto..."
-        ),
-        
-        DefineCardsInfoDevice(
-            ft.Icon(ft.icons.ELECTRIC_BOLT_SHARP),
-            "GENERAL",
-            "Hora: 11:41am",
-            "Temperatúra: 32ºC"
-        ),
+                    DefineCardsInfoDevice(
+                        gradient,
+                        width,
+                        padding,
+                        Icon(icons.ELECTRIC_BOLT_SHARP),
+                        "GENERAL",
+                        "Hora: 11:41am",
+                        "Temperatúra Célular: 32ºC"
+                    ),
+                    
                 ]
             )
         )
         
-        lv = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
-        lv.controls.append(contenedorCards)
-        
         return (
-            contenedorCards
+            
+            containerInfoExtraDevice
+        
         )
         
-        
-    def ActionButtonVncServer(e):
-        page.route("index/config/vnc_server")
-        
-        
-    def ViewVNCServerProfile():
-        
-        imagen = ft.Image(
-            src="playVNC.jpeg",
-            border_radius=ft.border_radius.all(20),
-            )
-        contenedor = ft.Container(
-            alignment=ft.alignment.top_right,
-            width=170,
-            height=170,
-            #bgcolor=ft.colors.GREEN,
-            content=imagen
-        )
-        
-        boton = ft.IconButton(
-            content=contenedor,
-            on_click=ActionButtonVncServer
-                         
-            )
-
-        return (boton)
     
-         
+    def NavigateToIndex(e):
+        page.go("/index")#NAVEGAMOS HACIA LA VISTA /INDEX
+        
+        
     def BackToPagePrevious():
         
-        iconoVolver = ft.IconButton(
-            
-            icon=ft.icons.ARROW_BACK,
-            tooltip="Volver a la página anterior"
+        iconBackPage = IconButton(
+                
+            icon= icons.ARROW_BACK,
+            tooltip= "Volver a la página anterior",
+            on_click= NavigateToIndex
+        
         )
         
-        contenedor = ft.Container(
-            alignment=ft.alignment.bottom_left,
+        containerBackPage = Container(
             
-            content=iconoVolver
+            alignment= alignment.bottom_left,
+            content= iconBackPage
+        
         )
-        return contenedor
+        
+        return (
+            containerBackPage
+        )
     
     
-    info = InfoDevice()
+    cardsInfoDevice = InfoDevice()
     
-    lv1 = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
-    lv1.controls.append(info)
+    aggScrollToCardsInfoDevice = ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
+    aggScrollToCardsInfoDevice.controls.append(cardsInfoDevice)
     
-    vista = ft.Row(
-            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+    ElementsRow = Row(
+            alignment= MainAxisAlignment.SPACE_BETWEEN,
             controls=[
                 ProfileUser(),
-                lv1,
-                ViewVNCServerProfile()
+                aggScrollToCardsInfoDevice,
             ]
         )
-    lv = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
-    lv.controls.append(vista)
+    
+    aggScrollToElementsRow = ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
+    aggScrollToElementsRow.controls.append(ElementsRow)
     
     
-    
-    
-    
-    page.add(
-
-        TituloPagina(),
-        lv,   
+    viewExtraInfoDevice = [
+        TitlePageInformationDevice(),
+        aggScrollToElementsRow,   
         BackToPagePrevious()
-
+        ]
+    
+    Page.add (
+        
+        viewExtraInfoDevice
+    
     )
-   
-   
-ft.app(target = ConfigProfileUser,assets_dir="assets")#Llamamos a la vista Test
+    
+    
+
+    
+    
+app(target=ConfigProfileUser)
