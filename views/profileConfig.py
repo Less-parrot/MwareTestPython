@@ -73,7 +73,17 @@ def ConfigProfileUser(page: Page):
         dataImage = datos_json[f"{listaIDDevice[0]}"]
         routeImage = dataImage['imagen_perfil']
         return routeImage
+    
+    def RouteImage1():
+        ruta_archivo = "jsonData/config.json"
 
+        with open(ruta_archivo, 'r') as archivo:
+            datos_json = load(archivo)
+
+        dataImage = datos_json[f"{listaIDDevice[0]}"]
+        routeImage = dataImage['imageVnc']
+        return routeImage
+    
     def ProfileUser():
         
         routeImage = RouteImage()
@@ -86,7 +96,7 @@ def ConfigProfileUser(page: Page):
         )
         
         def changeImageUser(e):
-            InsertUserInJson(nameUser=listNameDevice[0], id_user=listaIDDevice[0], nueva_imagen=GetRouteImage())
+            InsertUserInJson(nameUser=listNameDevice[0], id_user=listaIDDevice[0], nueva_imagen=GetRouteImage(), nueva_imageVnc=RouteImage1())
             imageUser.src = RouteImage()
             page.update()
             

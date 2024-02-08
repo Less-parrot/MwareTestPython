@@ -30,4 +30,5 @@ if __name__ == "__main__":
         system("./bins/cleanProject.sh")
         
     except KeyboardInterrupt:
+
         system("./bins/cleanProject.sh")

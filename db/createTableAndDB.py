@@ -1,7 +1,5 @@
 from db.script import createTable
 
-
-
 try:
     createTable(
         "db/dataDevices.db",

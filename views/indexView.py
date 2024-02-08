@@ -24,7 +24,7 @@ from flet import (
     
 )   
 
-import db.createTableAndDB
+
 from db.script import ReadTableDb
 from os import system
 
@@ -50,7 +50,11 @@ def IndexView(page: Page):
     
          
         
-    def ActionButtonVncServer(e, ipServer):
+    def ActionButtonVncServer(e, ipServer, idDevice, nameDevice):
+        listaIDDevice.clear()
+        listaIDDevice.append(idDevice)
+        listNameDevice.clear()
+        listNameDevice.append(nameDevice)
         page.go("/index/ExtraInfoDevice/vnc_server")
         system(f"./bins/vncviewer -geometry 405x610+412+140 {ipServer}:5300")
                 
@@ -107,7 +111,7 @@ def IndexView(page: Page):
                             icon_color="blue400",
                             icon_size=20,
                             tooltip="ver pantalla",
-                            on_click=lambda e: ActionButtonVncServer(e, ipPrivate)
+                            on_click=lambda e: ActionButtonVncServer(e, ipPrivate, idDevice, device)
                             )
                         ),
                     ]

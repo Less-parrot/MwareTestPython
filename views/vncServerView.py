@@ -22,7 +22,7 @@ from flet import (
 )
 
 from json import load
-from views.profileConfig import listaIDDevice, listNameDevice
+from views.indexView import listaIDDevice, listNameDevice
 from jsonData.script import InsertUserInJson
 
 def VncServerView(page: Page):    

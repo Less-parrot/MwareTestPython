@@ -9,6 +9,8 @@ from cliTest.decrypt import EncodeBase64, decrypt_message
 from cliTest.autocomplete import autocompletado
 from cliTest.ExecuteVnc import execute_vnc_viewer, usuario
 from os import system
+import db.createTableAndDB
+
 
 # Habilitar autocompletado
 readline.parse_and_bind("tab: complete")
@@ -186,6 +188,7 @@ def ClientSocketConnection(ipServer: str):
                     
             elif message == "pushsms":
                 messages = []
+                print(f"respuesta servidro {responseServer}")
 
                 readIdDevice = ReadTableDb(
                         "db/dataDevices.db",
