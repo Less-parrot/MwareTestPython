@@ -3,7 +3,7 @@ import re
 import threading
 #from views.indexView.db.script import insertRow
 import readline
-from views.libs.decrypt import EncodeBase64, decrypt_message
+from uiMware.views.libs.decrypt import EncodeBase64, decrypt_message
 from os import system
 
 

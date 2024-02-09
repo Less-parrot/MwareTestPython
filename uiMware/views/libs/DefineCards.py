@@ -1,5 +1,5 @@
 import flet as ft
-from views.libs.DropDownMenu import DropDownMenuAppsAndSMS
+from uiMware.views.libs.DropDownMenu import DropDownMenuAppsAndSMS
 
 
 def DefineCardsInfoDevice(

@@ -1,10 +1,10 @@
 from flet import View, Page
-from views.moreInformationView import ConfigProfileUser
-from views.indexView import IndexView
-from views.vncServerView import VncServerView
-from views.exampleView import ExampleView
-from views.smsView import SMSView
-from views.appView import AppsView
+from uiMware.views.moreInformationView import ConfigProfileUser
+from uiMware.views.indexView import IndexView
+from uiMware.views.vncServerView import VncServerView
+from uiMware.views.exampleView import ExampleView
+from uiMware.views.smsView import SMSView
+from uiMware.views.appView import AppsView
 
 
 class ControllerViews:

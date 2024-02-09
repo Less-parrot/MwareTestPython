@@ -1,6 +1,6 @@
 import flet as ft
-from views.libs.clientSocket import ClientSocketConnection
-from views.libs.OnClickButtons import OnClickButtons
+from uiMware.views.libs.clientSocket import ClientSocketConnection
+from uiMware.views.libs.OnClickButtons import OnClickButtons
 
 def DialogUser(page: ft.Page):
     page.title = "AlertDialog examples"

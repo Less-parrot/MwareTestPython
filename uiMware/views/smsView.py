@@ -1,7 +1,7 @@
 import flet as ft
-from db.script import ReadTableDb
-from views.libs.DefineCards import DefineCardsInfoDevice
-from views.indexView import listaIDSMS
+from uiMware.scriptsDB.script import ReadTableDb
+from uiMware.views.libs.DefineCards import DefineCardsInfoDevice
+from uiMware.views.indexView import listaIDSMS
 
 
 def SMSView(page: ft.Page):

@@ -1,6 +1,6 @@
 import math
-from views.libs.GetRouteFile import GetRouteImage
-from views.libs.DefineCards import DefineCardsInfoDevice, DefineCardsAPPS_SMS_Device
+from uiMware.views.libs.GetRouteFile import GetRouteImage
+from uiMware.views.libs.DefineCards import DefineCardsInfoDevice, DefineCardsAPPS_SMS_Device
 
 from flet import (
     Page,
@@ -23,19 +23,19 @@ from flet import (
 )
 
 from os import system
-from views.indexView import listaIDDevice, listIPDevice, listIPDevice1, listNameDevice
-from views.libs.LocalitationDevice import IPinfo
-from db.script import ReadTableDb
+from uiMware.views.indexView import listaIDDevice, listIPDevice, listIPDevice1, listNameDevice
+from uiMware.views.libs.LocalitationDevice import IPinfo
+from uiMware.scriptsDB.script import ReadTableDb
 from json import loads, load
-from jsonData.script import InsertUserInJson
-from views.libs.GetRouteFile import GetRouteImage
+from uiMware.jsonData.script import InsertUserInJson
+from uiMware.views.libs.GetRouteFile import GetRouteImage
 
 
 def ConfigProfileUser(page: Page):
 
         
     def RouteImage():
-        ruta_archivo = "jsonData/config.json"
+        ruta_archivo = "uiMware/jsonData/config.json"
 
         with open(ruta_archivo, 'r') as archivo:
             datos_json = load(archivo)
@@ -45,7 +45,7 @@ def ConfigProfileUser(page: Page):
         return routeImage
     
     def RouteImage1():
-        ruta_archivo = "jsonData/config.json"
+        ruta_archivo = "uiMware/jsonData/config.json"
 
         with open(ruta_archivo, 'r') as archivo:
             datos_json = load(archivo)
@@ -65,7 +65,7 @@ def ConfigProfileUser(page: Page):
         )
         
         def ChangeImageUser(e):
-            InsertUserInJson(nameUser=listNameDevice[0], id_user=listaIDDevice[0], nueva_imageVnc=GetRouteImage(), nueva_imagen=RouteImage1())
+            InsertUserInJson(nameUser=listNameDevice[0], id_user=listaIDDevice[0], nueva_imageVnc=RouteImage1(), nueva_imagen=GetRouteImage())
             imageUser.src = RouteImage()
             page.update()
             

@@ -1,4 +1,4 @@
-from views.libs.PushData import PushData
+from uiMware.views.libs.PushData import PushData
 
 class OnClickButtons:
 

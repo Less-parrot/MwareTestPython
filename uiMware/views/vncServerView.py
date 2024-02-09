@@ -1,5 +1,5 @@
-from views.libs.GetRouteFile import GetRouteImage
-from views.libs.DefineCards import DefineCardsInfoDevice
+from uiMware.views.libs.GetRouteFile import GetRouteImage
+from uiMware.views.libs.DefineCards import DefineCardsInfoDevice
 
 from flet import (
     Page,
@@ -22,14 +22,14 @@ from flet import (
 )
 
 from json import load
-from views.indexView import listaIDDevice, listNameDevice
-from jsonData.script import InsertUserInJson
+from uiMware.views.indexView import listaIDDevice, listNameDevice
+from uiMware.jsonData.script import InsertUserInJson
 
 def VncServerView(page: Page):    
     
     
     def RouteImage():
-        ruta_archivo = "jsonData/config.json"
+        ruta_archivo = "uiMware/jsonData/config.json"
 
         with open(ruta_archivo, 'r') as archivo:
             datos_json = load(archivo)
@@ -39,7 +39,7 @@ def VncServerView(page: Page):
         return routeImage
     
     def RouteImage1():
-        ruta_archivo = "jsonData/config.json"
+        ruta_archivo = "uiMware/jsonData/config.json"
 
         with open(ruta_archivo, 'r') as archivo:
             datos_json = load(archivo)

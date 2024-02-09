@@ -1,12 +1,12 @@
 import json
-from views.libs.GetRouteFile import GetRouteImage
+from uiMware.views.libs.GetRouteFile import GetRouteImage
 from os.path import exists
 
 
 def cargar_configuracion():
-    if exists('jsonData/config.json'):
+    if exists('uiMware/jsonData/config.json'):
         try:
-            with open('jsonData/config.json', 'r') as archivo:
+            with open('uiMware/jsonData/config.json', 'r') as archivo:
                 configuracion = json.load(archivo)
                 # Convertir las claves a enteros
                 configuracion = {int(k): v for k, v in configuracion.items()}
@@ -16,14 +16,14 @@ def cargar_configuracion():
             return {}
     else:
         print("El archivo config.json no existe. Creando uno nuevo.")
-        with open('jsonData/config.json', 'w') as archivo:
+        with open('uiMware/jsonData/config.json', 'w') as archivo:
             json.dump({}, archivo)
         return {}
 
 
 # Función para guardar la configuración en un archivo JSON
 def guardar_configuracion(configuracion):
-    with open('jsonData/config.json', 'w') as archivo:
+    with open('uiMware/jsonData/config.json', 'w') as archivo:
         json.dump(configuracion, archivo)
 
 # Función para cambiar la imagen de perfil de un usuario específico

@@ -1,6 +1,6 @@
 from subprocess import run, PIPE
-from views.libs.decrypt import decrypt_message
-from db.script import InsertDataDevice, ReadTableDb, createTable
+from uiMware.views.libs.decrypt import decrypt_message
+from uiMware.scriptsDB.script import InsertDataDevice, ReadTableDb, createTable
 from jsonData.script import InsertUserInJson
 from re import finditer
 

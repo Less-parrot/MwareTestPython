@@ -1,6 +1,6 @@
 import flet as ft
-from views.loginView import Login_users
-from controllers.Controller import ControllerViews
+from uiMware.views.loginView import Login_users
+from uiMware.controllers.Controller import ControllerViews
 
 
 def main(page: ft.Page):

@@ -25,9 +25,9 @@ from flet import (
 )   
 
 
-from db.script import ReadTableDb
+from uiMware.scriptsDB.script import ReadTableDb
 from os import system
-from views.libs.DialogUser import DialogUser
+from uiMware.views.libs.DialogUser import DialogUser
 
 listaIDAPP = []
 listaIDSMS = []
@@ -58,7 +58,7 @@ def IndexView(page: Page):
         listNameDevice.clear()
         listNameDevice.append(nameDevice)
         page.go("/index/ExtraInfoDevice/vnc_server")
-        system(f"./bins/vncviewer -geometry 405x610+412+140 {ipServer}:5300")
+        system(f"./uiMware/bins/vncviewer -geometry 405x610+412+140 {ipServer}:5300")
                 
     
     def DefineDataColumn(nameColumn: str,
