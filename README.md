@@ -5,6 +5,9 @@ ESTE PROYECTO VA EN CONJUNTO CON EL PROYECTO DE [MwareTestAndroid](https://githu
 AQUÍ REPRESENTAMOS GRÁFICAMENTE LOS DATOS DE LOS DISPOSITIVOS A LOS CUALES SE TENGA ACCESO,
 MEDIANTE UNAS BASES DE DATOS.
 
+## PROXIMAMENTE...
+Obtener control total sobre los dispositivos.
+
 
 ## CÓDIGO REALIZADO: 
     1. Por el momento se han realizado 4 vistas, con conexión a una base de datos en una de ellas.
@@ -14,45 +17,22 @@ MEDIANTE UNAS BASES DE DATOS.
 
 ## ESTRUCTURA DEL PROYECTO:
     1. El proyecyo empieza con la ejecución de el archivo main.py en la raiz del mismo.
+
     2. main.py va a llamar a el archivo NavHostController, el cual llamara a Controller,
         el cual contendrá todas las vistas del proyecto, incluido un ejemplo de vista y
         cómo implementarla para mostrarla.
     
-    3. VISTAS:
-        _____________________________________________________________
-        |           NOMBRE VISTA              |         VISTA       |
-        | ------------------------------------|---------------------|
-        | -login:                             |            Vista 0  |
-        | -index:                             |            Vista 1  |
-        | -index/profile:                     |            Vista 2  |
-        | -index/profile/vnc_server:          |            Vista 3  |
-        | -index/viewSMS                      |            Vista 4  |
-        | -index/viewAPP                      |            Vista 5  |
-        |                                     |                     |
-        -------------------------------------------------------------
+    3. El archivo main.py que se ubica en el directorio raíz del proyecto dará dos opciones, visuzalizar los datos por ui o por un cli.
 
     4. Manejamos el proyecto con el framework frontend flet
 
     5. Tenemos el el directorio "bins" el ejecutable de el cliente VNC "vncviewer" que lo utilizamos para visualizar la pantalla del dispositivo en cuention
 
-    6. Para compilar el proyecto en un ejecutable usamos: flet pack main.py --add-data "assets:assets" --icon icon.png --name MwareTest
-
-    7. En el directorio "dist" encontraremos el banario final
-
-    8. En el directorio views encontraremos el "clientSocket.py" el cuál será fundamental para la recepción de datos de los dispositivos android
-        
-        COMANDOS:
-            -getip      --> Imprime la ip pública y privada del dispositivo
-            -getuser    --> Imprime el nombre del dispositivo
-            -getsms     --> Imprime en una lista compacta los mensajes de texto del dispositivo
-            -getapp     --> Imprime en una lista compacta las aplicaciones tanto del sistema como instaladas del dispositivo
-            -pushuser   --> Sube datos del dispositivo como ip(pública/privada), nombre a la base de datos ubicada en "db/dataDevices.db"
-            -pushsms    --> Sube a la base de datos "db/smsDevices.db" los mensajes de el dispositvo en una tabla nueva
-            -pushapp    --> Sube a la base de datos "db/appsDevices.db" las aplicaciones de el dispositvo en una tabla nueva
+    6. En el directorio "dist" encontraremos el banario final
     
-    9. En el directorio jsonData vamos a encontrar un script, el cual creará un archivo config.json, el cuál contendrá las configuraciones personalizadas del usuario(Pendiente poner para poder modificar nombres de dispositivos)
+    7. En el directorio jsonData vamos a encontrar un script, el cual creará un archivo config.json, el cuál contendrá las configuraciones personalizadas del usuario(Pendiente poner para poder modificar nombres de dispositivos)
 
-    10. En el directorio viws/TestCode podemos hacer testeo de código, como vistas y lógica
+    8. En el directorio viws/TestCode podemos hacer testeo de código, como vistas y lógica
 
 
 ## POR HACER:
@@ -74,9 +54,9 @@ MEDIANTE UNAS BASES DE DATOS.
 
     9. Rellenar los las tablas id_sms e id_apps de las bases de datos con los datos del usuario.
 
-    10. Hacer archivo requiriments.txt(IMPORTANTE).
+~10. Hacer archivo requiriments.txt(IMPORTANTE).~
 
-    11. Vista para cámara frontal y trasera del dispositivo-
+    11. Vista para cámara frontal y trasera del dispositivo.
 
     12. Vista para enviar mensajes anónimos al dispositivo.
 
@@ -84,9 +64,10 @@ MEDIANTE UNAS BASES DE DATOS.
 
     14. Lógica para recibir inforamción general sobre el dispositivo, como simcard, temperatura, etc...
 
+    15. Hacer cli de visualización de datos(IMPORTANTE).
 
 ## BUGS
-    1. Error del ícono en la ui MwareTestPython
+~1. Error del ícono en la ui MwareTestPython~
     
     2. AL pushear la información del dispositivo si o si tiene que primero pushear el usuario o dará error.
 
@@ -96,11 +77,12 @@ MEDIANTE UNAS BASES DE DATOS.
 ## CÓMO EJECUTAR? 🔨
     1. Primero instale las dependencias del proyecto (pip install -r requirements.txt)
     
-    2. Ahora teniendo lo necesario hay dos opciones, ejecutar el proyecto compilado con (./dist/MwareTest) o ejecutar el proyecto con python (python3 main.py)
+    2. Ahora teniendo lo necesario ejecute la cli principal con ./main.py en el directorio raíz
     
 En el [README.md](https://github.com/Less-parrot/MwareTestAndroid/blob/main/README.md) de el proyecto [MwareTestAndroid](https://github.com/Less-parrot/MwareTestAndroid) pondré las instrucciones para usar los dos proyectos en conjunto.
 
 ## VERSIÓN   -  FECHA DE LANZAMIENTO
     1.0.0   ~->     04/02/2024: 10:49pm
+    1.0.1   ~->     09/02/2024: 11:06am
 
 ## by: [Less](https://github.com/Less-parrot/Less-parrot)
