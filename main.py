@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 from os import system
+from cliMware.CliMware import main
 
 class Cli:
     
     def Options():
         ask = str(input("Escoja el entirno que desea utilizar [ui/cli]: "))
         if ask == "ui":
-            system("cd ui;clear;./bins/UiMainFlet; cd ..")
+            system("cd uiMware;clear;./bins/uiMware; cd ..")
         elif ask == "cli":
             system("clear")
-            print("Bienvenido a la cli")
+            main()
             exit() 
     
 Cli.Options()
